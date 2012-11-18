@@ -6,7 +6,7 @@ A simple monitoring dashboard using Node.js.
 Features
 --------
 
-* Monitor running processes (using ps)
+* Monitor running processes
 * Monitor mySQL processes
 * Easy installation and zero administration
 
@@ -29,7 +29,7 @@ Start the application using:
 
     > node app.js
 
-You should now be able to access the dashboard at [localhost:8347](http://localhost:8347) from your browser
+You should now be able to access the dashboard at [localhost:8347](http://localhost:8347) from your prefered (modern) browser.
 
 License
 -------
