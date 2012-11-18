@@ -1,21 +1,49 @@
+body {
+    padding-top: 60px;
+}
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Sanchez', serif;
     font-weight: 400;
 }
-h1 {
-    text-transform: uppercase;
-}
-h1 small {
-    text-transform: none;
-}
 a {
     color: #333;
+}
+a.brand {
+    text-transform: uppercase;
+    font-family: 'Sanchez', serif;
+    font-weight: 400;
+}
+.navbar-inverse .brand {
+    color: #EF9E7A;
+    vertical-align: bottom;
+}
+a.brand small {
+    text-transform: none;
+    font-size: 11px;
+    color: #B1C6A9;
+}
+.navbar .nav > li > a {
+    color: #B1C6A9;
+    padding-top: 14px;
+    height: 18px;
+    line-height: 18px;
+}
+.navbar .nav > li > a [class^="icon-"],
+.navbar .nav > li > a [class*=" icon-"] {
+    background-image: url("../imgs/icons-extra.png");
+    margin-right: 5px;
+}
+.navbar .nav > li > a .icon-info-sign {
+    background-position: -28px 0;
+}
+.navbar .nav > li > a .icon-tasks {
+    background-position: -14px -14px;
 }
 
 .icon-h-chart,
 .icon-v-chart,
 .icon-database {
-    background-image: url("../imgs/icons-extra.gif");
+    background-image: url("../imgs/icons-extra.png");
 }
 .icon-h-chart {
     background-position: 0 0;
