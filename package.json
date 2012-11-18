@@ -1,0 +1,14 @@
+{
+  "name": "digiposte-migration-monitor",
+  "version": "0.0.1",
+  "dependencies" : {
+    "socket.io":   "0.9.11",
+    "node-static": "0.6.4",
+    "mongolian": "*",
+    "js-yaml": "0.3.x",
+    "config": "0.4.18"
+  },
+  "engine": {
+    "node": ">=0.8"
+  }
+}

@@ -1,0 +1,19 @@
+
+############################
+# PROCESS
+############################
+processMonitor:
+  refresh: 2000
+
+
+############################
+# MYSQL
+############################
+mysqlMonitor:
+  connection:
+    user:     MYSQLUSER
+    password: MYSQLPASSWORD
+    host:     MYSQLHOST
+    port:     MYSQLPORT
+  refresh: 2000
+  datadir: MYSQLDATADIR

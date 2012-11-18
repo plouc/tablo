@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tablo [beta]</title>
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href='http://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet' type='text/css'>
+        <link href="css/main.css" rel="stylesheet" media="screen">
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="offset3 span9">
+                    <h1>Tablo <small>beta</small></h1>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#process" data-toggle="tab"><i class="icon-cog"></i> process</a></li>
+                        <li><a href="#mysql" data-toggle="tab"><i class="icon-database"></i> mysql</a></li>
+                        <li><a href="#mysql" data-toggle="tab"><i class="icon-leaf"></i> mongodb</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="process">
+                            <div class="row-fluid">
+                                <div class="span3">
+                                    <div id="process-cpu">
+                                        <h4 class="pull-left">CPU usage</h4>
+                                        <div class="btn-group pull-right">
+                                              <a class="btn btn-mini h-layout" href="#"><i class="icon-h-chart"></i></a>
+                                              <a class="btn btn-mini v-layout" href="#"><i class="icon-v-chart"></i></a>
+                                        </div>
+                                        <div class="graph">
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div id="process-mem">
+                                        <h4 class="pull-left">Memory usage</h4>
+                                        <div class="btn-group pull-right">
+                                            <a class="btn btn-mini h-layout" href="#"><i class="icon-h-chart""></i></a>
+                                            <a class="btn btn-mini v-layout" href="#"><i class="icon-v-chart"></i></a>
+                                        </div>
+                                        <div class="graph">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span9">
+                                    <h3>Processes</h3>
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>user</th>
+                                                <th>pid</th>
+                                                <th>cpu%</th>
+                                                <th>mem%</th>
+                                                <th>vsize</th>
+                                                <th>rssize</th>
+                                                <th>tty</th>
+                                                <th>state</th>
+                                                <th>started</th>
+                                                <th>time</th>
+                                                <th>command</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="mysql">
+                            <div class="row-fluid">
+                                <div class="span2">
+                                    <div>
+                                        <h4><i class="icon-hdd"></i> Disk usage</h4>
+                                        <div class="content">
+                                            <table class="du table table-condensed">
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span8">
+                                    <h3>Processes</h3>
+                                    <table class="process table table-condensed">
+                                        <thead>
+                                            <tr>
+                                                <th>id</th>
+                                                <th>user</th>
+                                                <th>host</th>
+                                                <th>database</th>
+                                                <th>command</th>
+                                                <th>time</th>
+                                                <th>state</th>
+                                                <th>info</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="span2">
+                                    <div>
+                                        <h4><i class="icon-hdd"></i> Disk usage</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/js/vendor/underscore.min.js"></script>
+        <script src="/js/vendor/d3.v2.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/js/barChart.js"></script>
+        <script>
+            $(document).ready(function() {
+
+                var socket = io.connect('http://localhost');
+
+                var procCpuChart = new BarChart('#process-cpu .graph', {
+                    property: 'cpuUsage',
+                    layout:   'V'
+                });
+                $('#process-cpu .h-layout').click(function(e) {
+                    e.preventDefault();
+                    procCpuChart.switchLayout('H');
+                });
+                $('#process-cpu .v-layout').click(function(e) {
+                    e.preventDefault();
+                    procCpuChart.switchLayout('V');
+                });
+
+
+                var procMemChart = new BarChart('#process-mem .graph', {
+                    property: 'memoryUsage',
+                    layout:   'V'
+                });
+                $('#process-mem .h-layout').click(function(e) {
+                    e.preventDefault();
+                    procMemChart.switchLayout('H');
+                });
+                $('#process-mem .v-layout').click(function(e) {
+                    e.preventDefault();
+                    procMemChart.switchLayout('V');
+                });
+
+
+                var $processTbody = $('#process table tbody'),
+                    processContent;
+
+                socket.on('process.status', function (report) {
+
+                    report.forEach(function(row) {
+                        row.cpuUsage    = parseFloat(row.cpuUsage.replace(',', '.'));
+                        row.memoryUsage = parseFloat(row.memoryUsage.replace(',', '.'));
+                    });
+
+                    procCpuChart.redraw(report);
+                    procMemChart.redraw(report);
+
+                    processContent = '';
+                    _.each(report, function(row) {
+                        processContent += '<tr>';
+                        _.each(row, function(value) {
+                            processContent += '<td>' + value + '</td>';
+                        });
+                        processContent += '</tr>';
+                    });
+                    $processTbody.html(processContent);
+                });
+
+
+
+
+
+
+                var $mysqlTbody = $('#mysql table.process tbody'),
+                    $mysqlDu    = $('#mysql table.du tbody'),
+                    mysqlContent, mysqlDuContent;
+
+                socket.on('mysql.process', function (report) {
+                    mysqlContent = '';
+                    _.each(report, function(row) {
+                        mysqlContent += '<tr>';
+                        _.each(row, function(value) {
+                            mysqlContent += '<td>' + value + '</td>';
+                        });
+                        mysqlContent += '</tr>';
+                    });
+                    $mysqlTbody.html(mysqlContent);
+                });
+
+                socket.on('mysql.du', function (report) {
+                    mysqlDuContent = '';
+                    report.forEach(function(row) {
+                        mysqlDuContent += '<tr>';
+                        mysqlDuContent += '<td>' + row.name + '</td>';
+                        mysqlDuContent += '<td>' + row.size + '</td>';
+                        mysqlDuContent += '</tr>';
+                    });
+                    $mysqlDu.html(mysqlDuContent);
+                });
+            });
+        </script>
+    </body>
+</html>

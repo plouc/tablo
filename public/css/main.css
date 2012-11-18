@@ -1,0 +1,58 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Sanchez', serif;
+    font-weight: 400;
+}
+h1 {
+    text-transform: uppercase;
+}
+h1 small {
+    text-transform: none;
+}
+a {
+    color: #333;
+}
+
+.icon-h-chart,
+.icon-v-chart,
+.icon-database {
+    background-image: url("../imgs/icons-extra.gif");
+}
+.icon-h-chart {
+    background-position: 0 0;
+}
+.icon-v-chart {
+    background-position: -14px 0;
+}
+.icon-database {
+    background-position: 0 -14px;
+}
+
+#mysql .content {
+    background: #F3E0BD;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.2);
+    height: 400px;
+    overflow: auto;
+}
+#mysql .content td {
+    border-top: 1px solid #dcc9a7;
+}
+#mysql .content tr:first-child td {
+    border-top: none;
+}
+
+
+svg {
+    background: #F3E0BD;
+    border-radius: 2px;
+    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+rect.ghost {
+    fill: #fff;
+    opacity: 0.4;
+}
+
+rect.bar {
+    fill: #EF9E7A;
+}
