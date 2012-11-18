@@ -40,6 +40,9 @@ var mysqlMon = mysqlMonitor.create(config.mysqlMonitor)
     .on('report.process', function(report) {
         io.sockets.emit('mysql.process', report);
     })
+    .on('report.databases', function(report) {
+        io.sockets.emit('mysql.databases', report);
+    })
     .on('report.du', function(report) {
         io.sockets.emit('mysql.du', report);
     });

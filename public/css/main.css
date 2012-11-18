@@ -54,20 +54,25 @@ a.brand small {
 .icon-database {
     background-position: 0 -14px;
 }
-
-#mysql .content {
-    background: #F3E0BD;
-    border-radius: 2px;
-    box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.2);
+/*
+#mysql-disk-usage .content {
     height: 400px;
     overflow: auto;
 }
-#mysql .content td {
+*/
+#mysql-databases .content ul li {
+    padding: 4px 7px;
+}
+#mysql-disk-usage .content td,
+#mysql-databases .content ul li {
     border-top: 1px solid #dcc9a7;
 }
-#mysql .content tr:first-child td {
+#mysql-disk-usage .content tr:first-child td,
+#mysql-databases .content ul li:first-child {
     border-top: none;
 }
+
+
 .help .label {
     font-weight: 400;
     padding: 3px 7px;
@@ -78,10 +83,11 @@ a.brand small {
     padding-bottom: 7px;
     border-bottom: 1px solid #bbb;
 }
-#sidebar {
-}
 
-svg {
+
+svg,
+#mysql-databases .content,
+#mysql-disk-usage .content {
     background: #F3E0BD;
     border-radius: 2px;
     box-shadow: inset 0 2px 2px rgba(0, 0, 0, 0.2);

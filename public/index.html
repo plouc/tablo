@@ -32,6 +32,8 @@
                         <li><a href="#mongodb" data-toggle="tab"><i class="icon-leaf"></i> mongodb</a></li>
                     </ul>
                     <div class="tab-content">
+
+                        <!-- PROCESS -->
                         <div class="tab-pane active" id="process">
                             <div class="row-fluid">
                                 <div class="span3">
@@ -79,42 +81,57 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- end PROCESS -->
+
+                        <!-- MYSQL -->
                         <div class="tab-pane" id="mysql">
                             <div class="row-fluid">
                                 <div class="span2">
-                                    <div>
+                                    <div id="mysql-databases">
+                                        <h4><i class="icon-database"></i> Databases</h4>
+                                        <div class="content">
+                                            <ul class="unstyled">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="span8">
+                                    <div id="mysql-process">
+                                        <h3>Processes</h3>
+                                        <table class="table table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th>id</th>
+                                                    <th>user</th>
+                                                    <th>host</th>
+                                                    <th>database</th>
+                                                    <th>command</th>
+                                                    <th>time</th>
+                                                    <th>state</th>
+                                                    <th>info</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="span2">
+                                    <div id="mysql-disk-usage">
                                         <h4><i class="icon-hdd"></i> Disk usage</h4>
                                         <div class="content">
-                                            <table class="du table table-condensed">
+                                            <table class="table table-condensed">
                                                 <tbody>
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="span8">
-                                    <h3>Processes</h3>
-                                    <table class="process table table-condensed">
-                                        <thead>
-                                            <tr>
-                                                <th>id</th>
-                                                <th>user</th>
-                                                <th>host</th>
-                                                <th>database</th>
-                                                <th>command</th>
-                                                <th>time</th>
-                                                <th>state</th>
-                                                <th>info</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="span2">
-                                </div>
                             </div>
                         </div>
+                        <!-- end MYSQL -->
+
+                        <!-- MONGODB -->
                         <div class="tab-pane active" id="mongodb">
                             <div class="row-fluid">
                                 <div class="offset3 span9">
@@ -125,6 +142,8 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- end MONGODB -->
+
                     </div>
                 </div>
             </div>
@@ -156,7 +175,7 @@
 
                 var procMemChart = new BarChart('#process-mem .graph', {
                     property: 'memoryUsage',
-                    layout:   'V'
+                    layout:   'H'
                 });
                 $('#process-mem .h-layout').click(function(e) {
                     e.preventDefault();
@@ -170,7 +189,6 @@
 
                 var $processTbody = $('#process table tbody'),
                     processContent;
-
                 socket.on('process.status', function (report) {
 
                     report.forEach(function(row) {
@@ -193,14 +211,8 @@
                 });
 
 
-
-
-
-
-                var $mysqlTbody = $('#mysql table.process tbody'),
-                    $mysqlDu    = $('#mysql table.du tbody'),
-                    mysqlContent, mysqlDuContent;
-
+                var $mysqlProcess = $('#mysql-process tbody'),
+                    mysqlContent;
                 socket.on('mysql.process', function (report) {
                     mysqlContent = '';
                     _.each(report, function(row) {
@@ -210,18 +222,32 @@
                         });
                         mysqlContent += '</tr>';
                     });
-                    $mysqlTbody.html(mysqlContent);
+                    $mysqlProcess.html(mysqlContent);
                 });
 
-                socket.on('mysql.du', function (report) {
-                    mysqlDuContent = '';
+
+                var $mysqlDatabases = $('#mysql-databases ul'),
+                    mysqlDatabasesContent;
+                socket.on('mysql.databases', function (report) {
+                    mysqlDatabasesContent = '';
                     report.forEach(function(row) {
-                        mysqlDuContent += '<tr>';
-                        mysqlDuContent += '<td>' + row.name + '</td>';
-                        mysqlDuContent += '<td>' + row.size + '</td>';
-                        mysqlDuContent += '</tr>';
+                        mysqlDatabasesContent += '<li>' + row.Database + '</li>';
                     });
-                    $mysqlDu.html(mysqlDuContent);
+                    $mysqlDatabases.html(mysqlDatabasesContent);
+                });
+
+
+                var $mysqlDiskUsage = $('#mysql-disk-usage tbody'),
+                    mysqlDiskUsageContent;
+                socket.on('mysql.du', function (report) {
+                    mysqlDiskUsageContent = '';
+                    report.forEach(function(row) {
+                        mysqlDiskUsageContent += '<tr>';
+                        mysqlDiskUsageContent += '<td>' + row.name + '</td>';
+                        mysqlDiskUsageContent += '<td>' + row.size + '</td>';
+                        mysqlDiskUsageContent += '</tr>';
+                    });
+                    $mysqlDiskUsage.html(mysqlDiskUsageContent);
                 });
             });
         </script>
