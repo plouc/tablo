@@ -29,6 +29,8 @@ Start the application using:
 
     > node app.js
 
+You should now be able to access the dashboard at [http://localhost:8347] from your browser
+
 License
 -------
 
