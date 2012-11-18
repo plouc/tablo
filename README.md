@@ -40,4 +40,5 @@ tablo uses third-party libraries:
 * [TwitterBootstrap](http://twitter.github.com/bootstrap/), licensed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0),
 * [d3](http://http://d3js.org/), licensed under the [BSD License](https://raw.github.com/mbostock/d3/master/LICENSE),
 * [underscorejs](http://http://d3js.org/), licensed under the [MIT License](https://raw.github.com/documentcloud/underscore/master/LICENSE).
+
 If you like the software, please help improving it by contributing PRs on the [GitHub project](https://github.com/plouc/tablo)!
