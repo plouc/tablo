@@ -68,7 +68,18 @@ a.brand small {
 #mysql .content tr:first-child td {
     border-top: none;
 }
-
+.help .label {
+    font-weight: 400;
+    padding: 3px 7px;
+    font-size: 12px;
+    line-height: 18px;
+}
+.help h2 {
+    padding-bottom: 7px;
+    border-bottom: 1px solid #bbb;
+}
+#sidebar {
+}
 
 svg {
     background: #F3E0BD;

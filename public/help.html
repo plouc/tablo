@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Tablo [pre-alpha] help</title>
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href='http://fonts.googleapis.com/css?family=Sanchez' rel='stylesheet' type='text/css'>
+        <link href="css/main.css" rel="stylesheet" media="screen">
+    </head>
+    <body class="help">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="brand" href="/">Tablo <small>pre-alpha</small></a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li class="divider-vertical"></li>
+                            <li><a href="/"><i class="icon-tasks"></i>monitor</a></li>
+                            <li class="divider-vertical"></li>
+                            <li><a href="help.html"><i class="icon-info-sign"></i>help</a></li>
+                            <li class="divider-vertical"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3">
+                    <div id="sidebar" class="well well-small">
+                        <ul class="nav nav-list">
+                            <li><a href="#config-process"><i class="icon-cog"></i> process</a></li>
+                            <li><a href="#config-mysql"><i class="icon-database"></i> mysql</a></li>
+                            <li><a href="#config-mongodb"><i class="icon-leaf"></i> mongodb</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="span9">
+                    <div id="config-process">
+                        <h2>process configuration</h2>
+                        <p>Processes are fetched with the <strong>ps</strong> command.<br>
+                        Here is how your process configuration should look like:</p>
+<pre>processMonitor:
+    refresh: 1000</pre>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>option</th>
+                                    <th>example</th>
+                                    <th>comment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="label label-info">refresh</span></td>
+                                    <td><i>1000</i></td>
+                                    <td>
+                                        <p>Time between each processes retrieval.</p>
+                                        <p class="alert alert-warning">Do not set a too small interval, the retrieval + parsing of running processes is a costly operation.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="config-mysql">
+                        <h2>mysql configuration</h2>
+                        <p>Running mysql processes are fetched using the <strong>SHOW PROCESSLIST</strong> query.<br>
+                        Disk usage is computed with the <strong>du</strong> command.<br>
+                        Here is how your mysql configuration should look like:</p>
+<pre>mysqlMonitor:
+    connection:
+        user:     root
+        password: root
+        host:     127.0.0.1
+        port:     3306
+    refresh: 1000
+    datadir: /data/mysql</pre>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>option</th>
+                                    <th>example</th>
+                                    <th>comment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="label label-info">connection.user</span></td>
+                                    <td><i>root</i></td>
+                                    <td>mysql user</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-info">connection.password</span></td>
+                                    <td><i>root</i></td>
+                                    <td>mysql user password</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-info">connection.host</span></td>
+                                    <td><i>localhost</i></td>
+                                    <td>mysql host</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-info">connection.port</span></td>
+                                    <td><i>3306</i></td>
+                                    <td>mysql port</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-info">refresh</span></td>
+                                    <td><i>1000</i></td>
+                                    <td>
+                                        <p>Time between each processes retrieval.</p>
+                                        <p class="alert alert-warning">Do not set a too small interval, the retrieval + parsing of running processes is a costly operation.</p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-info">datadir</span></td>
+                                    <td><i>/data/mysql</i></td>
+                                    <td>mysql datadir, used to get information about disk usage</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="config-mongodb">
+                        <h2>mongodb configuration</h2>
+                        <div class="alert alert-warning">
+                            This feature is a work in progress.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script src="/bootstrap/js/bootstrap.min.js"></script>
+    </body>
+</html>
