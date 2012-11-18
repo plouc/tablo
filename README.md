@@ -13,6 +13,8 @@ Features
 Installing tablo
 ----------------
 
+You must have [nodejs](http://nodejs.org/download/) installed
+
 Clone the repository from GitHub and install dependencies using npm:
 
     > git clone git://github.com/plouc/tablo.git
