@@ -187,7 +187,7 @@ BarChart.prototype.switchLayout = function(layout) {
  * @param data
  * @return {*}
  */
-BarChart.prototype.redraw = function(data) {
+BarChart.prototype.update = function(data) {
     if (!this.layoutTransition) {
 
         var self = this;

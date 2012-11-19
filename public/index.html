@@ -50,7 +50,7 @@
                                     <div id="process-mem">
                                         <h4 class="pull-left">Memory usage</h4>
                                         <div class="btn-group pull-right">
-                                            <a class="btn btn-mini h-layout" href="#"><i class="icon-h-chart""></i></a>
+                                            <a class="btn btn-mini h-layout" href="#"><i class="icon-h-chart"></i></a>
                                             <a class="btn btn-mini v-layout" href="#"><i class="icon-v-chart"></i></a>
                                         </div>
                                         <div class="graph">
@@ -59,6 +59,7 @@
                                 </div>
                                 <div class="span9">
                                     <h3>Processes</h3>
+                                    <input id="process-filter" class="input-xlarge" type="text" placeholder="search" />
                                     <table class="table table-condensed">
                                         <thead>
                                             <tr>
@@ -132,7 +133,7 @@
                         <!-- end MYSQL -->
 
                         <!-- MONGODB -->
-                        <div class="tab-pane active" id="mongodb">
+                        <div class="tab-pane" id="mongodb">
                             <div class="row-fluid">
                                 <div class="offset3 span9">
                                     <h3>mongodb</h3>
@@ -154,62 +155,24 @@
         <script src="/js/vendor/d3.v2.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/js/barChart.js"></script>
+        <script src="/js/processRenderer.js"></script>
         <script>
             $(document).ready(function() {
 
                 var socket = io.connect('http://localhost');
 
-                var procCpuChart = new BarChart('#process-cpu .graph', {
-                    property: 'cpuUsage',
-                    layout:   'V'
+
+                /*
+                var $processFilter = $('#process-filter');
+                $processFilter.on('keyup', function() {
                 });
-                $('#process-cpu .h-layout').click(function(e) {
-                    e.preventDefault();
-                    procCpuChart.switchLayout('H');
+                */
+
+
+                var processRenderer = new ProcessRenderer();
+                socket.on('process.status', function (data) {
+                    processRenderer.update(data);
                 });
-                $('#process-cpu .v-layout').click(function(e) {
-                    e.preventDefault();
-                    procCpuChart.switchLayout('V');
-                });
-
-
-                var procMemChart = new BarChart('#process-mem .graph', {
-                    property: 'memoryUsage',
-                    layout:   'H'
-                });
-                $('#process-mem .h-layout').click(function(e) {
-                    e.preventDefault();
-                    procMemChart.switchLayout('H');
-                });
-                $('#process-mem .v-layout').click(function(e) {
-                    e.preventDefault();
-                    procMemChart.switchLayout('V');
-                });
-
-
-                var $processTbody = $('#process table tbody'),
-                    processContent;
-                socket.on('process.status', function (report) {
-
-                    report.forEach(function(row) {
-                        row.cpuUsage    = parseFloat(row.cpuUsage.replace(',', '.'));
-                        row.memoryUsage = parseFloat(row.memoryUsage.replace(',', '.'));
-                    });
-
-                    procCpuChart.redraw(report);
-                    procMemChart.redraw(report);
-
-                    processContent = '';
-                    _.each(report, function(row) {
-                        processContent += '<tr>';
-                        _.each(row, function(value) {
-                            processContent += '<td>' + value + '</td>';
-                        });
-                        processContent += '</tr>';
-                    });
-                    $processTbody.html(processContent);
-                });
-
 
                 var $mysqlProcess = $('#mysql-process tbody'),
                     mysqlContent;

@@ -13,7 +13,7 @@ mysqlMonitor:
   connection:
     user:     MYSQLUSER
     password: MYSQLPASSWORD
-    host:     MYSQLHOST
-    port:     MYSQLPORT
+    host:     127.0.0.1
+    port:     3306
   refresh: 2000
   datadir: MYSQLDATADIR
