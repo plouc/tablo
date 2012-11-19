@@ -36,7 +36,12 @@ var ProcessRenderer = function() {
         self.memoryChart.switchLayout('V');
     });
 
-    this.term = null;
+    this.data = [];
+
+    this.term = false;
+    $('#process-filter').on('keyup', function() {
+        self.filter($(this).val());
+    });
 };
 
 /**
@@ -47,7 +52,23 @@ var ProcessRenderer = function() {
 ProcessRenderer.prototype.filter = function(term) {
 
     if (_.isString(term) && term.length) {
-        this.term = term;
+        this.term = new RegExp(term, 'gim');
+
+        var self = this;
+        var match;
+        this.data.forEach(function(row) {
+            match = false;
+            _.each(row, function(value) {
+                if (!match && self.term) {
+                    match = self.term.test(value);
+                }
+            });
+            if (match) {
+                row.$display.removeClass('hidden');
+            } else {
+                row.$display.addClass('hidden');
+            }
+        });
     }
 
     return this;
@@ -66,17 +87,30 @@ ProcessRenderer.prototype.update = function(data) {
         row.memoryUsage = parseFloat(row.memoryUsage.replace(',', '.'));
     });
 
-    var content = '';
+    this.$rowContainer.html('');
+
+    var self = this,
+        cssClass, match, rowContent;
 
     data.forEach(function(row) {
-        content += '<tr>';
+        rowContent = '<tr%css-class%>';
+        match = false;
         _.each(row, function(value) {
-            content += '<td>' + value + '</td>';
+            if (!match && self.term) {
+                match = self.term.test(value);
+            }
+            rowContent += '<td>' + value + '</td>';
         });
-        content += '</tr>';
+        cssClass = match ? '' : ' class="hidden"';
+        rowContent = rowContent.replace('%css-class%', cssClass);
+        rowContent += '</tr>';
+
+        row.$display = $(rowContent);
+
+        self.$rowContainer.append(row.$display);
     });
 
-    this.$rowContainer.html(content);
+    this.data = data;
 
     // update graphs
     this.memoryChart.update(data);

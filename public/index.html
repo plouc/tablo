@@ -161,24 +161,17 @@
 
                 var socket = io.connect('http://localhost');
 
-
-                /*
-                var $processFilter = $('#process-filter');
-                $processFilter.on('keyup', function() {
-                });
-                */
-
-
                 var processRenderer = new ProcessRenderer();
                 socket.on('process.status', function (data) {
                     processRenderer.update(data);
                 });
+                processRenderer.filter('node');
 
                 var $mysqlProcess = $('#mysql-process tbody'),
                     mysqlContent;
                 socket.on('mysql.process', function (report) {
                     mysqlContent = '';
-                    _.each(report, function(row) {
+                    report.forEach(function(row) {
                         mysqlContent += '<tr>';
                         _.each(row, function(value) {
                             mysqlContent += '<td>' + value + '</td>';
