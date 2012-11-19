@@ -59,7 +59,7 @@
                                 </div>
                                 <div class="span9">
                                     <h3>Processes</h3>
-                                    <input id="process-filter" class="input-xlarge" type="text" placeholder="search" />
+                                    <input id="process-filter" class="input-xlarge" type="text" placeholder="search (regular expression supported)" />
                                     <table class="table table-condensed">
                                         <thead>
                                             <tr>
@@ -165,7 +165,6 @@
                 socket.on('process.status', function (data) {
                     processRenderer.update(data);
                 });
-                processRenderer.filter('node');
 
                 var $mysqlProcess = $('#mysql-process tbody'),
                     mysqlContent;

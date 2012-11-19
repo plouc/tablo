@@ -39,8 +39,9 @@ var ProcessRenderer = function() {
     this.data = [];
 
     this.term = false;
-    $('#process-filter').on('keyup', function() {
-        self.filter($(this).val());
+    var $filter = $('#process-filter');
+    $filter.on('keyup', function() {
+        self.filter($filter.val());
     });
 };
 
@@ -53,7 +54,6 @@ ProcessRenderer.prototype.filter = function(term) {
 
     if (_.isString(term) && term.length) {
         this.term = new RegExp(term, 'gim');
-
         var self = this;
         var match;
         this.data.forEach(function(row) {
@@ -69,6 +69,8 @@ ProcessRenderer.prototype.filter = function(term) {
                 row.$display.addClass('hidden');
             }
         });
+    } else {
+        this.term = false;
     }
 
     return this;
@@ -94,7 +96,7 @@ ProcessRenderer.prototype.update = function(data) {
 
     data.forEach(function(row) {
         rowContent = '<tr%css-class%>';
-        match = false;
+        match = self.term ? '' : true;
         _.each(row, function(value) {
             if (!match && self.term) {
                 match = self.term.test(value);
