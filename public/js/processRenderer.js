@@ -43,6 +43,8 @@ var ProcessRenderer = function() {
     $filter.on('keyup', function() {
         self.filter($filter.val());
     });
+
+    this.colorRange = this.memoryChart.colorRange;
 };
 
 /**
@@ -97,6 +99,7 @@ ProcessRenderer.prototype.update = function(data) {
     data.forEach(function(row) {
         rowContent = '<tr%css-class%>';
         match = self.term ? '' : true;
+        rowContent += '<td><span class="color-legend" style="background-color:' + self.colorRange(row.processId) + '"></span></td>';
         _.each(row, function(value) {
             if (!match && self.term) {
                 match = self.term.test(value);

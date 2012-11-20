@@ -72,6 +72,24 @@ a.brand small {
     border-top: none;
 }
 
+#footer {
+    height: 30px;
+    background: #000;
+    width: 100%;
+    color: #B1C6A9;
+    line-height: 30px;
+    font-size: 11px;
+}
+#footer .plouc {
+    display: block;
+    background-image: url("../imgs/avatar.png");
+    background-position: top right;
+    background-repeat: no-repeat;
+    color: #EF9E7A;
+    padding-right: 30px;
+    margin-right: 10px;
+}
+
 
 .help .label {
     font-weight: 400;
@@ -82,6 +100,13 @@ a.brand small {
 .help h2 {
     padding-bottom: 7px;
     border-bottom: 1px solid #bbb;
+}
+
+
+.color-legend {
+    display: block;
+    width: 16px;
+    height: 16px;
 }
 
 
@@ -99,5 +124,5 @@ rect.ghost {
 }
 
 rect.bar {
-    fill: #EF9E7A;
+    /*fill: #EF9E7A;*/
 }

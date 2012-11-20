@@ -4,26 +4,48 @@
  * @param options
  * @constructor
  */
-var BarChart = function(containerId, options) {
+var BarChart = function(containerId, o) {
 
-    if (!options.hasOwnProperty('property')) {
+    if (!o.hasOwnProperty('property')) {
         throw new Error('No property defined!')
     }
 
-    options.limit              = options.limit              || 10;
-    options.barWidth           = options.barWidth           || 22;
-    options.boundOffset        = options.boundOffset        || 12;
-    options.spacing            = options.spacing            || 4;
-    options.textOffset         = options.textOffset         || 10;
-    options.maxWidth           = options.maxWidth           || 300;
-    options.transitionDuration = options.transitionDuration || 1000;
-    options.layout             = options.layout             || 'H';
-    this.o = options;
+    o.limit              = o.limit              || 10;
+    o.barWidth           = o.barWidth           || 22;
+    o.boundOffset        = o.boundOffset        || 12;
+    o.spacing            = o.spacing            || 4;
+    o.textOffset         = o.textOffset         || 10;
+    o.maxWidth           = o.maxWidth           || 300;
+    o.transitionDuration = o.transitionDuration || 1000;
+    o.layout             = o.layout             || 'H';
+    this.o = o;
 
     this.range = d3.scale.linear()
         .domain([0, 100])
         .range([0, this.o.maxWidth]);
 
+    var colors = [
+        '#B1C6A9',
+        '#EF9E7A',
+        '#BAB254',
+        '#ECCA53',
+        '#664B45',
+        '#D35530',
+        '#6E874D',
+        '#D84C4F',
+        '#B58644',
+        '#7CA49E',
+        '#32302B',
+        '#AF866D',
+        '#807E4A',
+        '#B28B3D',
+        '#E49C52',
+        '#9D7D50'
+    ];
+
+    this.colorRange = d3.scale.ordinal()
+        .domain([0, 99999])
+        .range(colors);
 
     this.svg = d3.select(containerId)
         .append('svg')
@@ -215,6 +237,10 @@ BarChart.prototype.update = function(data) {
             .text(function(d) { return d.processId; })
             .attr('text-anchor', 'start')
             .attr('alignment-baseline', 'middle');
+
+        rects.attr('fill', function(d) {
+            return self.colorRange(d.processId);
+        });
 
         if (this.o.layout == 'H') {
             newRects
