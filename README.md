@@ -3,7 +3,7 @@ tablo
 
 A simple monitoring dashboard using Node.js.
 
-<img src="http://cloud.github.com/downloads/plouc/tablo/tablo-gui-screenshots.jpg" alt="tablo gui screenshots"/>
+<img src="http://cloud.github.com/downloads/plouc/tablo/tablo-screenshots-2.jpg" alt="tablo gui screenshots"/>
 
 Features
 --------
