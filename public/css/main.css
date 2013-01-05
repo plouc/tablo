@@ -107,6 +107,7 @@ a.brand small {
     display: block;
     width: 16px;
     height: 16px;
+    border-radius: 2px;
 }
 
 
